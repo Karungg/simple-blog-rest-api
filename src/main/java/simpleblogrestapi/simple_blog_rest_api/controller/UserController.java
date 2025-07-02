@@ -43,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok().body("User successfully created");
     }
 
-    @PutMapping(path = "/api/users/{userId}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/api/users/{id}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> updateUser(@PathVariable UUID id, @ModelAttribute @Valid CreateUserRequest request,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -54,8 +54,8 @@ public class UserController {
         return ResponseEntity.ok().body("User successfully updated");
     }
 
-    @DeleteMapping("/api/users/{userId}/delete")
-    public ResponseEntity<String> deleteUser(UUID id) {
+    @DeleteMapping("/api/users/{id}/delete")
+    public ResponseEntity<String> deleteUser(@PathVariable(required = true) UUID id) {
         userService.deleteUser(id);
         return ResponseEntity.ok().body("User successfully deleted");
     }
