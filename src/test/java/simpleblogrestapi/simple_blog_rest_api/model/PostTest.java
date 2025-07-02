@@ -1,7 +1,5 @@
 package simpleblogrestapi.simple_blog_rest_api.model;
 
-import java.util.List;
-
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
