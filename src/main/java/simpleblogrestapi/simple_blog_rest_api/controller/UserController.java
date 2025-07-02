@@ -8,6 +8,7 @@ import simpleblogrestapi.simple_blog_rest_api.model.User;
 import simpleblogrestapi.simple_blog_rest_api.service.UserService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +57,11 @@ public class UserController {
 
     @DeleteMapping("/api/users/{id}/delete")
     public ResponseEntity<String> deleteUser(@PathVariable(required = true) UUID id) {
+        User user = userService.findById(id).orElse(null);
+        if (user == null) {
+            return ResponseEntity.badRequest().body("User is not found");
+        }
+
         userService.deleteUser(id);
         return ResponseEntity.ok().body("User successfully deleted");
     }
