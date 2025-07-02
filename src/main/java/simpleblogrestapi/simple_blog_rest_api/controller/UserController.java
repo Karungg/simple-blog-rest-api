@@ -8,14 +8,18 @@ import simpleblogrestapi.simple_blog_rest_api.model.User;
 import simpleblogrestapi.simple_blog_rest_api.service.UserService;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 public class UserController {
@@ -37,7 +41,23 @@ public class UserController {
 
         userService.storeUser(request.getUsername(), request.getEmail());
         return ResponseEntity.ok().body("User successfully created");
+    }
 
+    @PutMapping(path = "/api/users/{userId}", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> updateUser(@PathVariable UUID id, @ModelAttribute @Valid CreateUserRequest request,
+            BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Your input is invalid");
+        }
+
+        userService.updateUser(id, request.getUsername(), request.getEmail());
+        return ResponseEntity.ok().body("User successfully updated");
+    }
+
+    @DeleteMapping("/api/users/{userId}/delete")
+    public ResponseEntity<String> deleteUser(UUID id) {
+        userService.deleteUser(id);
+        return ResponseEntity.ok().body("User successfully deleted");
     }
 
 }
