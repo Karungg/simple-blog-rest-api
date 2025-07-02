@@ -8,7 +8,6 @@ import simpleblogrestapi.simple_blog_rest_api.model.User;
 import simpleblogrestapi.simple_blog_rest_api.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,7 @@ public class UserController {
     public ResponseEntity<String> storeUser(@ModelAttribute @Valid CreateUserRequest request,
             BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(bindingResult.getAllErrors().getFirst().getDefaultMessage());
+            return ResponseEntity.badRequest().body("Your input is invalid");
         }
 
         userService.storeUser(request.getUsername(), request.getEmail());
