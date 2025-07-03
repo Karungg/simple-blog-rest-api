@@ -18,6 +18,9 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
+    @Autowired
+    private UserService userService;
+
     public List<Post> findAllPosts() {
         return postRepository.findAll();
     }
@@ -26,7 +29,10 @@ public class PostService {
         return postRepository.findById(id);
     }
 
-    public void storePost(String title, String content, User user) {
+    public void storePost(String title, String content, String userId) {
+        UUID id = UUID.fromString(userId);
+        User user = userService.findById(id).orElse(null);
+
         Post post = new Post();
         post.setTitle(title);
         post.setContent(content);

@@ -34,11 +34,12 @@ public class PostController {
     @PostMapping(path = "/api/posts", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> storePost(@ModelAttribute @Valid CreatePostRequest request,
             BindingResult bindingResult) {
+
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body("Your input is invalid");
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors().toString());
         }
 
-        postService.storePost(request.getTitle(), request.getContent(), request.getUser());
+        postService.storePost(request.getTitle(), request.getContent(), request.getUserId());
         return ResponseEntity.ok().body("Post successfully created");
     }
 
